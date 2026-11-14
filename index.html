@@ -1,1510 +1,971 @@
 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#f8f4ef">
-<title>Zyra.lk | Jewellery, Made Personal</title>
-<meta name="description" content="Discover personalised jewellery and limited-edition designs at Zyra.lk.">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zyra.lk | Exclusive Collection</title>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 :root {
-  --cream: #f8f4ef;
-  --white: #fffdfa;
-  --wine: #642b3a;
-  --ink: #282323;
-  --muted: #817779;
-  --line: #e8dfd9;
-  --gold: #b49a70;
+  --wine: #842d40;
+  --cream: #faf7f2;
+  --dark: #292522;
+  --muted: #82766f;
+  --white: #ffffff;
 }
 
-* { box-sizing: border-box; }
-
-html { scroll-behavior: smooth; }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 body {
-  margin: 0;
+  font-family: Arial, sans-serif;
   background: var(--cream);
-  color: var(--ink);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--dark);
 }
 
-button, input, textarea, select { font: inherit; }
-button { cursor: pointer; }
+button, input, select, textarea {
+  font: inherit;
+}
 
-.announcement {
-  background: var(--wine);
-  color: white;
-  text-align: center;
-  padding: 10px;
-  font-size: 11px;
-  letter-spacing: 2px;
+button {
+  cursor: pointer;
 }
 
 header {
-  position: sticky;
-  top: 0;
-  z-index: 20;
-  background: rgba(248,244,239,.97);
-  border-bottom: 1px solid var(--line);
-}
-
-nav {
-  max-width: 1200px;
-  margin: auto;
-  padding: 17px 22px;
+  background: white;
+  padding: 18px 6%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 15px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: 1px solid #eee;
 }
 
 .logo {
-  font-family: Georgia, serif;
-  font-size: 29px;
   color: var(--wine);
-  text-decoration: none;
-  white-space: nowrap;
+  font-family: Georgia, serif;
+  font-size: 28px;
+  letter-spacing: 3px;
+  font-weight: bold;
 }
 
-.navlinks {
+.nav {
   display: flex;
-  gap: 15px;
+  gap: 22px;
   align-items: center;
-  flex-wrap: wrap;
 }
 
-.navlinks a,
-.navlinks button {
-  color: var(--ink);
-  background: none;
-  border: 0;
+.nav a {
   text-decoration: none;
-  font-size: 12px;
+  color: var(--dark);
+  font-size: 13px;
+}
+
+.cart-button {
+  border: 1px solid var(--wine);
+  background: white;
+  color: var(--wine);
+  padding: 10px 16px;
 }
 
 .hero {
-  max-width: 1200px;
-  margin: 35px auto 60px;
-  padding: 25px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 35px;
+  min-height: 390px;
+  background: #eee4dc;
+  display: flex;
   align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 50px 20px;
 }
 
 .hero h1 {
-  font: normal clamp(40px,6vw,70px)/1.05 Georgia,serif;
-  color: var(--wine);
-  margin: 15px 0;
+  font-family: Georgia, serif;
+  font-size: clamp(34px, 6vw, 58px);
+  margin-bottom: 15px;
 }
 
 .hero p {
-  line-height: 1.9;
-  color: var(--muted);
-  max-width: 460px;
+  color: #655a53;
+  margin-bottom: 25px;
+  line-height: 1.7;
 }
 
-.hero-image {
-  height: 430px;
-  background: #e9dfd7 url("https://images.unsplash.com/photo-1617038220319-276d3cfab638?auto=format&fit=crop&w=1200&q=85") center/cover;
-}
-
-.eyebrow {
-  font-size: 11px;
-  letter-spacing: 2px;
-  color: var(--wine);
-  text-transform: uppercase;
+.primary-button {
+  background: var(--wine);
+  color: white;
+  border: none;
+  padding: 14px 28px;
 }
 
 .section {
-  max-width: 1200px;
-  margin: 0 auto 65px;
-  padding: 0 22px;
+  padding: 55px 6%;
 }
 
-h2 {
-  font: normal 35px Georgia,serif;
-  margin: 10px 0 20px;
+.section-title {
+  text-align: center;
+  font-family: Georgia, serif;
+  font-size: 32px;
+  margin-bottom: 12px;
 }
 
-.muted { color: var(--muted); }
-
-.btn {
-  border: 1px solid var(--wine);
-  background: var(--wine);
-  color: white;
-  padding: 12px 19px;
-  border-radius: 2px;
-  font-size: 12px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
+.section-subtitle {
+  text-align: center;
+  color: var(--muted);
+  margin-bottom: 30px;
+  font-size: 14px;
 }
 
-.btn:hover { opacity: .88; }
-
-.btn.secondary {
-  background: transparent;
-  color: var(--wine);
-}
-
-.btn.small {
-  padding: 9px 12px;
-  font-size: 10px;
-}
-
-.tools {
+.toolbar {
   display: flex;
-  gap: 10px;
+  gap: 12px;
+  justify-content: space-between;
   flex-wrap: wrap;
-  margin-bottom: 22px;
+  margin-bottom: 28px;
 }
 
-input, textarea, select {
-  border: 1px solid var(--line);
-  background: var(--white);
+.toolbar input, .toolbar select {
   padding: 12px;
-  color: var(--ink);
-  border-radius: 2px;
-  min-width: 0;
+  border: 1px solid #ddd;
+  background: white;
+  min-width: 180px;
 }
 
-.tools input { flex: 1; min-width: 180px; }
-
-.grid {
+.products {
   display: grid;
-  grid-template-columns: repeat(3,minmax(0,1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 22px;
 }
 
-.product {
-  background: var(--white);
-  border: 1px solid var(--line);
-  padding: 12px;
-  min-width: 0;
-}
-
-.gallery {
-  position: relative;
-  aspect-ratio: 1/1;
-  background: #eee5df;
+.product-card {
+  background: white;
   overflow: hidden;
 }
 
-.gallery img {
+.product-image {
   width: 100%;
-  height: 100%;
+  height: 250px;
   object-fit: cover;
   display: block;
+  background: #eee9e4;
 }
 
-.gallery-controls {
-  position: absolute;
-  bottom: 9px;
-  left: 9px;
-  right: 9px;
-  display: flex;
-  justify-content: space-between;
+.product-info {
+  padding: 16px;
 }
 
-.gallery-controls button,
-.heart {
-  border: 0;
-  background: rgba(255,253,250,.94);
-  color: var(--wine);
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
+.product-info h3 {
+  font-size: 15px;
+  margin-bottom: 8px;
 }
 
-.heart {
-  position: absolute;
-  top: 9px;
-  right: 9px;
-  font-size: 19px;
-}
-
-.product h3 {
-  font: normal 20px Georgia,serif;
-  margin: 14px 0 7px;
-}
-
-.product p {
-  font-size: 12px;
+.product-info p {
   color: var(--muted);
-  line-height: 1.6;
+  font-size: 13px;
+  line-height: 1.5;
+  margin-bottom: 10px;
 }
 
 .price {
   color: var(--wine);
   font-weight: bold;
-  font-size: 14px;
+  margin-bottom: 14px;
 }
 
-.product-actions {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-top: 12px;
-}
-
-.tag {
-  display: inline-block;
-  background: #f1e8e4;
-  color: var(--wine);
-  padding: 6px 8px;
-  margin-top: 8px;
-  font-size: 10px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-
-.panel {
-  background: var(--white);
-  border: 1px solid var(--line);
-  padding: 22px;
-  margin-top: 16px;
-}
-
-.form-grid {
-  display: grid;
-  grid-template-columns: repeat(2,minmax(0,1fr));
-  gap: 13px;
-}
-
-.form-grid .full { grid-column: 1/-1; }
-
-.field {
-  display: flex;
-  flex-direction: column;
-  gap: 7px;
-  color: var(--muted);
-  font-size: 12px;
-}
-
-.field input,
-.field textarea,
-.field select { width: 100%; }
-
-.preview {
-  background: #f1e8e4;
-  padding: 20px;
-  text-align: center;
-  margin-top: 14px;
-}
-
-.preview-text {
-  font: 30px Georgia,serif;
-  color: var(--wine);
-  overflow-wrap: anywhere;
-}
-
-.feature-band {
-  background: #eee5df;
-  padding: 35px 22px;
-  margin-bottom: 60px;
-}
-
-.feature-inner {
-  max-width: 1136px;
-  margin: auto;
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
-  gap: 25px;
-}
-
-.feature-inner h3 {
-  font: normal 22px Georgia,serif;
-}
-
-.feature-inner p {
-  color: var(--muted);
-  font-size: 13px;
-  line-height: 1.8;
-}
-
-.review-list {
-  display: grid;
-  grid-template-columns: repeat(3,1fr);
-  gap: 15px;
-}
-
-.review {
-  background: var(--white);
-  border: 1px solid var(--line);
-  padding: 18px;
-  line-height: 1.7;
-  overflow-wrap: anywhere;
-}
-
-.stars { color: var(--gold); letter-spacing: 2px; }
-
-.care-list {
-  color: var(--muted);
-  line-height: 2;
-  font-size: 14px;
-}
-
-.drawer-backdrop {
-  position: fixed;
-  inset: 0;
-  background: #0007;
-  z-index: 30;
-}
-
-.drawer {
-  position: fixed;
-  top: 0;
-  right: 0;
-  z-index: 31;
-  height: 100%;
-  width: min(440px,100%);
-  overflow-y: auto;
-  background: var(--white);
-  padding: 22px;
-}
-
-.drawer-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-}
-
-.cart-line {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 10px;
-  padding: 14px 0;
-  border-bottom: 1px solid var(--line);
-  font-size: 13px;
-}
-
-.hidden { display: none !important; }
-
-.toast {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 60;
-  background: var(--wine);
+.add-button {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  background: var(--dark);
   color: white;
-  padding: 12px 18px;
-  font-size: 13px;
-  width: max-content;
-  max-width: calc(100% - 30px);
+}
+
+.add-button:hover {
+  background: var(--wine);
+}
+
+.empty {
   text-align: center;
+  padding: 35px;
+  color: var(--muted);
+  grid-column: 1 / -1;
+}
+
+.benefits {
+  background: #eee5dc;
+  padding: 35px 6%;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  text-align: center;
+  gap: 20px;
+}
+
+.benefits h3 {
+  font-family: Georgia, serif;
+  margin-bottom: 8px;
+}
+
+.benefits p {
+  font-size: 13px;
+  color: var(--muted);
 }
 
 footer {
-  background: #30272a;
+  background: var(--dark);
   color: white;
-  padding: 38px 22px;
+  padding: 35px 6%;
+  text-align: center;
 }
 
-.footer-inner {
-  max-width: 1136px;
-  margin: auto;
+footer p {
+  font-size: 13px;
+  margin-top: 10px;
+  color: #ddd;
+}
+
+/* Cart and checkout */
+
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  background: rgba(0,0,0,.55);
+  overflow-y: auto;
+  padding: 25px 12px;
+}
+
+.modal-content {
+  background: white;
+  max-width: 560px;
+  margin: 25px auto;
+  padding: 25px;
+  border-radius: 3px;
+}
+
+.modal-header {
   display: flex;
   justify-content: space-between;
-  gap: 20px;
-  flex-wrap: wrap;
+  margin-bottom: 22px;
 }
 
-footer a { color: white; }
-
-@media(max-width:760px) {
-  .hero { grid-template-columns: 1fr; }
-  .hero-image { height: 300px; }
-  .grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
-  .feature-inner,.review-list { grid-template-columns: 1fr; }
-  .form-grid { grid-template-columns: 1fr; }
-  .form-grid .full { grid-column: auto; }
-  nav { align-items: flex-start; }
-  .navlinks { gap: 9px; justify-content: flex-end; }
-  .navlinks a,.navlinks button { font-size: 10px; }
+.close {
+  border: none;
+  background: transparent;
+  font-size: 25px;
 }
 
-@media(max-width:420px) {
-  .grid { grid-template-columns: 1fr; }
-  nav { flex-wrap: wrap; }
-  .navlinks { justify-content: flex-start; }
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.cart-item button {
+  border: none;
+  background: transparent;
+  color: var(--wine);
+}
+
+.cart-total {
+  font-weight: bold;
+  text-align: right;
+  margin: 20px 0;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 7px;
+  font-size: 13px;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  background: white;
+}
+
+.form-group textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.checkout-button {
+  width: 100%;
+  background: var(--wine);
+  color: white;
+  border: none;
+  padding: 14px;
+}
+
+.message {
+  margin-top: 15px;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+@media(max-width: 900px) {
+  .products {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media(max-width: 600px) {
+  .products {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .product-image {
+    height: 190px;
+  }
+
+  .product-info {
+    padding: 11px;
+  }
+
+  .nav {
+    gap: 10px;
+  }
+
+  .nav a {
+    display: none;
+  }
+
+  .benefits {
+    grid-template-columns: 1fr;
+  }
+
+  .section {
+    padding: 40px 4%;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<div class="announcement">
-  A LITTLE DETAIL. A PERSONAL STORY. · ISLANDWIDE DELIVERY
-</div>
-
 <header>
-<nav>
-  <a class="logo" href="#">Zyra.lk</a>
-  <div class="navlinks">
-    <a href="#shop">Shop</a>
-    <a href="#custom">Customise</a>
-    <a href="#reviews">Reviews</a>
-    <a href="#tracking">Track order</a>
-    <a href="#care">Care guide</a>
-    <button type="button" onclick="openWishlist()">♡ Wishlist (<span id="wishCount">0</span>)</button>
-    <button type="button" onclick="openCart()">Bag (<span id="cartCount">0</span>)</button>
-  </div>
-</nav>
+  <div class="logo">ZYRA.LK</div>
+
+  <nav class="nav">
+    <a href="#home">HOME</a>
+    <a href="#products">COLLECTION</a>
+    <button class="cart-button" onclick="openCart()">
+      BAG (<span id="cartCount">0</span>)
+    </button>
+  </nav>
 </header>
 
-<main>
-
-<section class="hero">
+<section class="hero" id="home">
   <div>
-    <div class="eyebrow">The Zyra collection</div>
-    <h1>Jewellery,<br>made personal.</h1>
+    <h1>Elegance in Every Detail</h1>
     <p>
-      Discover thoughtful details, personalised pieces and
-      limited-edition designs created to make everyday moments special.
+      Discover exclusive designs created to make
+      every detail feel special.
     </p>
-    <a class="btn" href="#shop" style="display:inline-block;text-decoration:none">
-      Explore collection
+    <a href="#products">
+      <button class="primary-button">EXPLORE COLLECTION</button>
     </a>
   </div>
-  <div class="hero-image" role="img" aria-label="Jewellery collection"></div>
 </section>
 
-<section class="section" id="shop">
-  <div class="eyebrow">Shop the collection</div>
-  <h2>Find your piece</h2>
-  <p class="muted">Explore the latest Zyra designs.</p>
+<section class="section" id="products">
 
-  <div class="tools">
-    <input id="search" placeholder="Search jewellery..." oninput="renderProducts()">
+  <h2 class="section-title">Our Collection</h2>
+  <p class="section-subtitle">
+    Carefully selected pieces, exclusively for you.
+  </p>
 
-    <select id="category" onchange="renderProducts()">
-      <option value="">All categories</option>
-      <option value="necklace">Necklaces</option>
-      <option value="bracelet">Bracelets</option>
-      <option value="accessories">Accessories</option>
-    </select>
+  <div class="toolbar">
+    <input
+      type="search"
+      id="searchInput"
+      placeholder="Search products..."
+      oninput="filterProducts()"
+    >
 
-    <select id="sort" onchange="renderProducts()">
-      <option value="new">Newest first</option>
-      <option value="low">Price: low to high</option>
-      <option value="high">Price: high to low</option>
+    <select id="categoryFilter" onchange="filterProducts()">
+      <option value="">All Collections</option>
     </select>
   </div>
 
-  <div class="eyebrow">New arrivals & limited editions</div>
-  <div id="products" class="grid">
-    <p class="muted">Loading Zyra collection...</p>
+  <div class="products" id="productList">
+    <div class="empty">Loading collection...</div>
   </div>
+
 </section>
 
-<section class="feature-band">
-  <div class="feature-inner">
-    <div>
-      <div class="eyebrow">01 · Thoughtful details</div>
-      <h3>Made personal</h3>
-      <p>Personalised jewellery designed around names, dates and meaningful memories.</p>
-    </div>
-    <div>
-      <div class="eyebrow">02 · Exclusive designs</div>
-      <h3>Less, but special</h3>
-      <p>Discover selected designs released in limited quantities.</p>
-    </div>
-    <div>
-      <div class="eyebrow">03 · Made to gift</div>
-      <h3>A little something</h3>
-      <p>Find a thoughtful piece for someone who deserves something special.</p>
-    </div>
+<section class="benefits">
+  <div>
+    <h3>Exclusive Designs</h3>
+    <p>Thoughtfully selected collections.</p>
+  </div>
+
+  <div>
+    <h3>Islandwide Delivery</h3>
+    <p>Delivering across Sri Lanka.</p>
+  </div>
+
+  <div>
+    <h3>Personalised Orders</h3>
+    <p>Special pieces made meaningful.</p>
   </div>
 </section>
-
-<section class="section" id="custom">
-  <div class="eyebrow">Your idea, your jewellery</div>
-  <h2>Personalise your piece</h2>
-  <p class="muted">Choose a customisable necklace and add the details you'd like engraved.</p>
-
-  <div class="panel">
-    <div class="form-grid">
-      <label class="field full">
-        Choose a necklace
-        <select id="customProduct">
-          <option value="">Select a product</option>
-        </select>
-      </label>
-
-      <label class="field">
-        Name or first text
-        <input id="customName" maxlength="30" placeholder="Enter a name">
-      </label>
-
-      <label class="field">
-        Second name or date (optional)
-        <input id="customSecond" maxlength="30" placeholder="Enter text or date">
-      </label>
-
-      <label class="field full">
-        Extra instructions
-        <textarea id="customNotes" rows="3" maxlength="250" placeholder="Any special instructions?"></textarea>
-      </label>
-    </div>
-
-    <div class="preview">
-      <div class="eyebrow">Personalisation preview</div>
-      <div class="preview-text" id="previewName">Your Name</div>
-      <p id="previewSecond" class="muted">Your second detail</p>
-      <p class="muted">Preview only. Final engraving will be confirmed with you.</p>
-    </div>
-
-    <button type="button" class="btn" onclick="addCustomToCart()">Add personalised piece to bag</button>
-  </div>
-</section>
-
-<section class="section" id="tracking">
-  <div class="eyebrow">Your order journey</div>
-  <h2>Order tracking</h2>
-  <p class="muted">Need an update about your order? Send us your order number through WhatsApp.</p>
-
-  <div class="panel">
-    <label class="field">
-      Order number
-      <input id="trackingNumber" placeholder="Enter your order number">
-    </label>
-    <br>
-    <button type="button" class="btn" onclick="requestTracking()">Request tracking update</button>
-    <p class="muted">This sends a tracking enquiry. It does not display live courier updates.</p>
-  </div>
-</section>
-
-<section class="section" id="reviews">
-  <div class="eyebrow">Customer stories</div>
-  <h2>Reviews</h2>
-
-  <div id="reviewList" class="review-list">
-    <p class="muted">Loading customer reviews...</p>
-  </div>
-
-  <div class="panel">
-    <h3>Share your experience</h3>
-
-    <div class="form-grid">
-      <label class="field">
-        Your name
-        <input id="reviewName" maxlength="60" placeholder="Your name">
-      </label>
-
-      <label class="field">
-        Rating
-        <select id="reviewRating">
-          <option value="5">★★★★★ — Excellent</option>
-          <option value="4">★★★★ — Very good</option>
-          <option value="3">★★★ — Good</option>
-          <option value="2">★★ — Fair</option>
-          <option value="1">★ — Poor</option>
-        </select>
-      </label>
-
-      <label class="field full">
-        Your review
-        <textarea id="reviewText" maxlength="600" rows="3" placeholder="Tell us about your experience..."></textarea>
-      </label>
-    </div>
-
-    <br>
-    <button type="button" class="btn" onclick="submitReview()">Submit review</button>
-    <p class="muted">Reviews may be checked before appearing on the website.</p>
-  </div>
-</section>
-
-<section class="section" id="care">
-  <div class="eyebrow">Keep your pieces special</div>
-  <h2>Jewellery care guide</h2>
-
-  <div class="panel">
-    <ul class="care-list">
-      <li>Keep jewellery away from perfumes, lotions and harsh chemicals.</li>
-      <li>Remove jewellery before bathing or swimming.</li>
-      <li>Wipe gently with a soft, dry cloth after use.</li>
-      <li>Store each piece separately in a dry jewellery pouch.</li>
-      <li>Avoid pulling or bending delicate chains and clasps.</li>
-    </ul>
-  </div>
-</section>
-
-</main>
 
 <footer>
-  <div class="footer-inner">
-    <div>
-      <div class="logo" style="color:white">Zyra.lk</div>
-      <p>Jewellery, made personal.</p>
-      <small>Thoughtful details. Meaningful pieces.</small>
-    </div>
-
-    <div>
-      <p><a href="#shop">Shop collection</a></p>
-      <p><a href="#custom">Personalise</a></p>
-      <p><a href="#care">Jewellery care</a></p>
-      <p><a href="https://wa.me/94741539576" target="_blank" rel="noopener">Contact us on WhatsApp</a></p>
-    </div>
-  </div>
-
-  <p style="text-align:center;font-size:11px;margin-top:30px">
-    © <span id="year"></span> Zyra.lk. All rights reserved.
-  </p>
+  <h2 class="logo">ZYRA.LK</h2>
+  <p>Exclusive Collection</p>
+  <p>Islandwide Delivery</p>
+  <p>© 2026 Zyra.lk. All rights reserved.</p>
 </footer>
 
-<div id="drawerBackdrop" class="drawer-backdrop hidden" onclick="closeDrawers()"></div>
+<!-- CART MODAL -->
 
-<aside id="cartDrawer" class="drawer hidden">
-  <div class="drawer-head">
-    <h2>Your bag</h2>
-    <button type="button" class="btn secondary small" onclick="closeDrawers()">Close</button>
+<div class="modal" id="cartModal">
+  <div class="modal-content">
+
+    <div class="modal-header">
+      <h2>Your Shopping Bag</h2>
+      <button class="close" onclick="closeCart()">×</button>
+    </div>
+
+    <div id="cartItems"></div>
+
+    <div class="cart-total" id="cartTotal">
+      Total: LKR 0
+    </div>
+
+    <button class="checkout-button" onclick="showCheckout()">
+      PROCEED TO CHECKOUT
+    </button>
+
   </div>
+</div>
 
-  <div id="cartItems"></div>
+<!-- CHECKOUT MODAL -->
 
-  <div class="panel">
-    <p>Subtotal: <strong id="cartTotal">LKR 0</strong></p>
-    <button type="button" class="btn" style="width:100%" onclick="openCheckout()">Order now</button>
-  </div>
-</aside>
+<div class="modal" id="checkoutModal">
+  <div class="modal-content">
 
-<aside id="wishlistDrawer" class="drawer hidden">
-  <div class="drawer-head">
-    <h2>Your wishlist</h2>
-    <button type="button" class="btn secondary small" onclick="closeDrawers()">Close</button>
-  </div>
-  <div id="wishlistItems"></div>
-</aside>
+    <div class="modal-header">
+      <h2>Checkout</h2>
+      <button class="close" onclick="closeCheckout()">×</button>
+    </div>
 
-<aside id="checkoutDrawer" class="drawer hidden">
-  <div class="drawer-head">
-    <h2>Checkout</h2>
-    <button type="button" class="btn secondary small" onclick="closeDrawers()">Close</button>
-  </div>
+    <form id="checkoutForm">
 
-  <form id="checkoutForm">
-    <div class="form-grid">
-      <label class="field full">Full name
-        <input id="customerName" required maxlength="100">
-      </label>
+      <div class="form-group">
+        <label>Full Name *</label>
+        <input name="customer_name" required>
+      </div>
 
-      <label class="field full">Email address
-        <input id="customerEmail" type="email" required>
-      </label>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input name="customer_email" type="email">
+      </div>
 
-      <label class="field full">WhatsApp number
-        <input id="customerPhone" type="tel" required>
-      </label>
+      <div class="form-group">
+        <label>WhatsApp / Phone Number *</label>
+        <input name="customer_phone" type="tel" required>
+      </div>
 
-      <label class="field full">Delivery address
-        <textarea id="customerAddress" rows="3" required></textarea>
-      </label>
+      <div class="form-group">
+        <label>Delivery Address *</label>
+        <textarea name="delivery_address" required></textarea>
+      </div>
 
-      <label class="field full">City
-        <input id="customerCity" required>
-      </label>
+      <div class="form-group">
+        <label>District *</label>
+        <input name="district" required>
+      </div>
 
-      <label class="field full">Payment method
-        <select id="paymentMethod" required>
-          <option value="bank_transfer">Bank transfer</option>
-          <option value="cash_on_delivery">Cash on delivery</option>
+      <div class="form-group">
+        <label>Payment Method *</label>
+        <select name="payment_method" required>
+          <option value="">Select payment method</option>
+          <option value="Cash on Delivery">Cash on Delivery</option>
+          <option value="Bank Transfer">Bank Transfer</option>
         </select>
-      </label>
-    </div>
+      </div>
 
-    <div id="bankInfo" class="panel">
-      <strong>Bank transfer</strong>
-      <p>Contact Zyra through WhatsApp to confirm the current bank transfer details before making payment.</p>
-      <p class="muted">Do not transfer money until the payment details have been confirmed.</p>
-    </div>
+      <div class="form-group">
+        <label>Customization / Special Instructions</label>
+        <textarea name="customization_details"></textarea>
+      </div>
 
-    <div class="panel">
-      <p>Order total: <strong id="checkoutTotal">LKR 0</strong></p>
-      <button class="btn" type="submit" style="width:100%">Continue to WhatsApp</button>
-      <p class="muted">WhatsApp will open with your order details. Please press Send to submit your order.</p>
-    </div>
-  </form>
-</aside>
+      <div class="cart-total" id="checkoutTotal"></div>
 
-<div id="toast" class="toast hidden"></div>
+      <button class="checkout-button" type="submit" id="placeOrderButton">
+        PLACE ORDER
+      </button>
+
+      <p class="message" id="checkoutMessage"></p>
+
+    </form>
+  </div>
+</div>
+
+<!-- ORDER SUCCESS MODAL -->
+
+<div class="modal" id="successModal">
+  <div class="modal-content" style="text-align:center">
+
+    <h2>Thank You!</h2>
+    <p style="margin:20px 0">
+      Your order has been submitted successfully.
+    </p>
+
+    <p id="trackingNumber" style="font-weight:bold;color:#842d40"></p>
+
+    <button class="primary-button" onclick="finishOrder()">
+      CONTINUE SHOPPING
+    </button>
+
+  </div>
+</div>
 
 <script>
-/* =====================================
-   ZYRA.LK CONFIGURATION
-===================================== */
+// ======================================
+// SUPABASE CONFIGURATION
+// ======================================
 
-const SUPABASE_URL = "https://rouysaipjmzmvoegtign.supabase.co";
-const SUPABASE_KEY = "sb_publishable_XmZ0RqmzN4uAEtAhJcFgMg_CQ-HWv2D";
-const WHATSAPP_NUMBER = "94741539576";
+const SUPABASE_URL =
+  "https://rouysaipjmzmvoegtign.supabase.co";
 
-const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+const SUPABASE_ANON_KEY =
+  "YOUR_EXISTING_SUPABASE_PUBLISHABLE_KEY";
+
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_ANON_KEY
+);
+
+// ======================================
+// CONFIGURATION
+// ======================================
+
+// Change these only if your actual database
+// uses different table or column names.
+
+const PRODUCT_TABLE = "products";
+
+// If image_url contains a Storage object path
+// rather than a complete URL, set your bucket name.
+const STORAGE_BUCKET = "product-images";
 
 let products = [];
-let galleryIndexes = {};
+let cart = [];
 
-/* SAFE LOCAL STORAGE */
+// ======================================
+// HELPERS
+// ======================================
 
-function readStorage(key, fallback) {
-  try {
-    const value = JSON.parse(localStorage.getItem(key));
-    return value ?? fallback;
-  } catch {
-    return fallback;
-  }
+function formatPrice(value) {
+  return Number(value || 0).toLocaleString("en-LK");
 }
 
-let cart = readStorage("zyra_cart", []);
-let wishlist = readStorage("zyra_wishlist", []);
+function getImageURL(image) {
+  if (!image) return "";
 
-if (!Array.isArray(cart)) cart = [];
-if (!Array.isArray(wishlist)) wishlist = [];
-
-/* =====================================
-   GENERAL HELPERS
-===================================== */
-
-const money = amount =>
-  "LKR " + Number(amount || 0).toLocaleString("en-LK");
-
-function escapeHTML(value) {
-  return String(value ?? "").replace(/[&<>"']/g, char => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#039;"
-  })[char]);
-}
-
-function safeId(value) {
-  return encodeURIComponent(String(value));
-}
-
-function notify(message) {
-  const toast = document.getElementById("toast");
-  toast.textContent = message;
-  toast.classList.remove("hidden");
-
-  clearTimeout(notify.timer);
-  notify.timer = setTimeout(() => {
-    toast.classList.add("hidden");
-  }, 2800);
-}
-
-function saveCart() {
-  localStorage.setItem("zyra_cart", JSON.stringify(cart));
-  updateCounts();
-}
-
-function saveWishlist() {
-  localStorage.setItem("zyra_wishlist", JSON.stringify(wishlist));
-  updateCounts();
-}
-
-function updateCounts() {
-  document.getElementById("cartCount").textContent =
-    cart.reduce((sum, item) => sum + Number(item.quantity || 0), 0);
-
-  document.getElementById("wishCount").textContent = wishlist.length;
-}
-
-function getCartTotal() {
-  return cart.reduce(
-    (sum, item) => sum + Number(item.price || 0) * Number(item.quantity || 0),
-    0
-  );
-}
-
-function hasCustomItems() {
-  return cart.some(item => item.is_customised);
-}
-
-/* =====================================
-   PRODUCT IMAGES
-===================================== */
-
-function getProductImages(product) {
-  let images = [];
-
-  if (Array.isArray(product.image_urls)) {
-    images = product.image_urls;
-  } else if (
-    typeof product.image_urls === "string" &&
-    product.image_urls.trim()
+  if (
+    image.startsWith("https://") ||
+    image.startsWith("http://") ||
+    image.startsWith("data:")
   ) {
-    try {
-      images = JSON.parse(product.image_urls);
-    } catch {
-      images = product.image_urls.split(",").map(value => value.trim());
-    }
+    return image;
   }
 
-  if (!Array.isArray(images)) images = [];
+  const { data } = supabaseClient.storage
+    .from(STORAGE_BUCKET)
+    .getPublicUrl(image);
 
-  if (!images.length && product.image_url) {
-    images = [product.image_url];
-  }
-
-  return images.filter(value =>
-    typeof value === "string" &&
-    /^https?:\/\//i.test(value)
-  );
+  return data.publicUrl;
 }
 
-/* =====================================
-   LOAD PRODUCTS
-===================================== */
+// ======================================
+// LOAD PRODUCTS
+// ======================================
 
 async function loadProducts() {
-  const container = document.getElementById("products");
+  const list = document.getElementById("productList");
 
-  try {
-    const { data, error } = await db
-      .from("store_products")
-      .select("*")
-      .eq("is_active", true)
-      .order("created_at", { ascending: false });
+  list.innerHTML = '<div class="empty">Loading products...</div>';
 
-    if (error) throw error;
+  const { data, error } = await supabaseClient
+    .from(PRODUCT_TABLE)
+    .select("*");
 
-    products = data || [];
-
-    if (!products.length) {
-      container.innerHTML =
-        '<p class="muted">No products available at the moment.</p>';
-      populateCustomProducts();
-      return;
-    }
-
-    populateCustomProducts();
-    renderProducts();
-
-  } catch (error) {
+  if (error) {
     console.error("Product loading error:", error);
-    container.innerHTML =
-      '<p class="muted">Unable to load products. Please check your Supabase connection and product permissions.</p>';
+    list.innerHTML =
+      '<div class="empty">Unable to load products. Please check your database settings.</div>';
+    return;
   }
+
+  products = (data || []).filter(product =>
+    product.is_active !== false
+  );
+
+  displayCategories();
+  displayProducts(products);
 }
 
-/* =====================================
-   PRODUCT DISPLAY AND FILTERING
-===================================== */
+// ======================================
+// DISPLAY CATEGORIES
+// ======================================
 
-function renderProducts() {
-  const container = document.getElementById("products");
+function displayCategories() {
+  const select = document.getElementById("categoryFilter");
 
-  const search = document.getElementById("search").value
-    .toLowerCase().trim();
+  const categories = [
+    ...new Set(
+      products
+        .map(product => product.category)
+        .filter(Boolean)
+    )
+  ];
 
-  const category = document.getElementById("category").value
-    .toLowerCase();
+  select.innerHTML = '<option value="">All Collections</option>';
 
-  const sort = document.getElementById("sort").value;
+  categories.forEach(category => {
+    const option = document.createElement("option");
+    option.value = category;
+    option.textContent = category;
+    select.appendChild(option);
+  });
+}
 
-  let filtered = products.filter(product => {
-    const name = String(product.name || "").toLowerCase();
-    const description = String(product.description || "").toLowerCase();
-    const productCategory = String(product.category || "").toLowerCase();
+// ======================================
+// DISPLAY PRODUCTS
+// ======================================
 
+function displayProducts(items) {
+  const list = document.getElementById("productList");
+
+  list.replaceChildren();
+
+  if (!items.length) {
+    list.innerHTML =
+      '<div class="empty">No products found.</div>';
+    return;
+  }
+
+  items.forEach(product => {
+    const card = document.createElement("article");
+    card.className = "product-card";
+
+    const img = document.createElement("img");
+    img.className = "product-image";
+    img.alt = product.name || "Zyra product";
+    img.src = getImageURL(product.image_url);
+
+    img.onerror = () => {
+      img.alt = "Product image unavailable";
+      img.removeAttribute("src");
+    };
+
+    const info = document.createElement("div");
+    info.className = "product-info";
+
+    const name = document.createElement("h3");
+    name.textContent = product.name || "Untitled Product";
+
+    const description = document.createElement("p");
+    description.textContent = product.description || "";
+
+    const price = document.createElement("div");
+    price.className = "price";
+    price.textContent =
+      "LKR " + formatPrice(product.price);
+
+    const button = document.createElement("button");
+    button.className = "add-button";
+    button.textContent = "ADD TO BAG";
+
+    button.addEventListener("click", () => {
+      addToCart(product.id);
+    });
+
+    info.append(name, description, price, button);
+    card.append(img, info);
+    list.appendChild(card);
+  });
+}
+
+// ======================================
+// SEARCH AND FILTER
+// ======================================
+
+function filterProducts() {
+  const search = document
+    .getElementById("searchInput")
+    .value.toLowerCase();
+
+  const category =
+    document.getElementById("categoryFilter").value;
+
+  const filtered = products.filter(product => {
     const matchesSearch =
-      name.includes(search) || description.includes(search);
+      (product.name || "").toLowerCase().includes(search);
 
     const matchesCategory =
-      !category || productCategory.includes(category);
+      !category || product.category === category;
 
     return matchesSearch && matchesCategory;
   });
 
-  if (sort === "low") {
-    filtered.sort((a, b) => Number(a.price) - Number(b.price));
-  } else if (sort === "high") {
-    filtered.sort((a, b) => Number(b.price) - Number(a.price));
-  }
-
-  if (!filtered.length) {
-    container.innerHTML =
-      '<p class="muted">No matching products found.</p>';
-    return;
-  }
-
-  container.innerHTML = filtered.map(product => {
-    const id = safeId(product.id);
-    const images = getProductImages(product);
-    const index = galleryIndexes[product.id] || 0;
-    const image = images[index] || "";
-    const wished = wishlist.includes(String(product.id));
-
-    return `
-      <article class="product">
-        <div class="gallery">
-          ${
-            image
-              ? `<img src="${escapeHTML(image)}"
-                   alt="${escapeHTML(product.name)}"
-                   loading="lazy">`
-              : `<div style="height:100%;display:grid;place-items:center;color:#817779">
-                   Image coming soon
-                 </div>`
-          }
-
-          <button type="button" class="heart"
-            onclick="toggleWishlist(decodeURIComponent('${id}'))"
-            aria-label="Toggle wishlist">
-            ${wished ? "♥" : "♡"}
-          </button>
-
-          ${
-            images.length > 1
-              ? `<div class="gallery-controls">
-                   <button type="button"
-                     onclick="changeGallery(decodeURIComponent('${id}'),-1)">‹</button>
-                   <button type="button"
-                     onclick="changeGallery(decodeURIComponent('${id}'),1)">›</button>
-                 </div>`
-              : ""
-          }
-        </div>
-
-        ${product.is_new_arrival ? '<span class="tag">New arrival</span>' : ""}
-        ${product.is_limited_edition ? '<span class="tag">Limited edition</span>' : ""}
-
-        <h3>${escapeHTML(product.name)}</h3>
-        <p>${escapeHTML(product.description || "")}</p>
-        <div class="price">${money(product.price)}</div>
-
-        <div class="product-actions">
-          <button type="button" class="btn small"
-            onclick="addToCart(decodeURIComponent('${id}'))">
-            Add to bag
-          </button>
-
-          ${
-            product.is_customisable
-              ? `<button type="button" class="btn secondary small"
-                   onclick="selectCustomProduct(decodeURIComponent('${id}'))">
-                   Personalise
-                 </button>`
-              : ""
-          }
-        </div>
-      </article>
-    `;
-  }).join("");
+  displayProducts(filtered);
 }
 
-function changeGallery(id, direction) {
-  const product = products.find(item => String(item.id) === String(id));
-  if (!product) return;
+// ======================================
+// SHOPPING CART
+// ======================================
 
-  const images = getProductImages(product);
-  if (images.length < 2) return;
-
-  const current = galleryIndexes[id] || 0;
-
-  galleryIndexes[id] =
-    (current + direction + images.length) % images.length;
-
-  renderProducts();
-}
-
-/* =====================================
-   WISHLIST
-===================================== */
-
-function toggleWishlist(id) {
-  id = String(id);
-
-  if (wishlist.includes(id)) {
-    wishlist = wishlist.filter(item => item !== id);
-    notify("Removed from wishlist");
-  } else {
-    wishlist.push(id);
-    notify("Added to wishlist");
-  }
-
-  saveWishlist();
-  renderProducts();
-
-  if (!document.getElementById("wishlistDrawer").classList.contains("hidden")) {
-    renderWishlist();
-  }
-}
-
-function renderWishlist() {
-  const container = document.getElementById("wishlistItems");
-
-  const items = products.filter(product =>
-    wishlist.includes(String(product.id))
+function addToCart(productId) {
+  const product = products.find(
+    item => String(item.id) === String(productId)
   );
 
-  if (!items.length) {
-    container.innerHTML = '<p class="muted">Your wishlist is empty.</p>';
-    return;
-  }
+  if (!product) return;
 
-  container.innerHTML = items.map(product => `
-    <div class="cart-line">
-      <div>
-        <strong>${escapeHTML(product.name)}</strong>
-        <p>${money(product.price)}</p>
-      </div>
-
-      <button type="button" class="btn secondary small"
-        onclick="toggleWishlist(decodeURIComponent('${safeId(product.id)}'))">
-        Remove
-      </button>
-    </div>
-  `).join("");
-}
-
-function openWishlist() {
-  closeDrawers();
-  renderWishlist();
-
-  document.getElementById("wishlistDrawer").classList.remove("hidden");
-  document.getElementById("drawerBackdrop").classList.remove("hidden");
-}
-
-/* =====================================
-   SHOPPING BAG
-===================================== */
-
-function addToCart(id) {
-  const product = products.find(item => String(item.id) === String(id));
-
-  if (!product) {
-    notify("Product not found");
-    return;
-  }
-
-  const existing = cart.find(item =>
-    item.product_id === String(product.id) &&
-    !item.is_customised
+  const existing = cart.find(
+    item => String(item.id) === String(productId)
   );
 
   if (existing) {
-    existing.quantity += 1;
+    existing.quantity++;
   } else {
     cart.push({
-      product_id: String(product.id),
+      id: product.id,
       name: product.name,
       price: Number(product.price),
-      quantity: 1,
-      is_customised: false,
-      customisation: null
+      quantity: 1
     });
   }
 
-  saveCart();
-  notify("Added to your bag");
+  updateCart();
 }
 
-function removeFromCart(index) {
-  if (!cart[index]) return;
+function removeFromCart(productId) {
+  cart = cart.filter(
+    item => String(item.id) !== String(productId)
+  );
 
-  cart.splice(index, 1);
-  saveCart();
-  renderCart();
+  updateCart();
 }
 
-function changeQuantity(index, amount) {
-  if (!cart[index]) return;
+function updateQuantity(productId, amount) {
+  const item = cart.find(
+    item => String(item.id) === String(productId)
+  );
 
-  cart[index].quantity += amount;
+  if (!item) return;
 
-  if (cart[index].quantity <= 0) {
-    cart.splice(index, 1);
+  item.quantity += amount;
+
+  if (item.quantity <= 0) {
+    removeFromCart(productId);
+  } else {
+    updateCart();
   }
-
-  saveCart();
-  renderCart();
 }
 
-function openCart() {
-  closeDrawers();
-  renderCart();
-
-  document.getElementById("cartDrawer").classList.remove("hidden");
-  document.getElementById("drawerBackdrop").classList.remove("hidden");
+function getTotal() {
+  return cart.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0
+  );
 }
 
-function renderCart() {
+function updateCart() {
+  document.getElementById("cartCount").textContent =
+    cart.reduce((sum, item) => sum + item.quantity, 0);
+
   const container = document.getElementById("cartItems");
 
+  container.replaceChildren();
+
   if (!cart.length) {
-    container.innerHTML = '<p class="muted">Your bag is empty.</p>';
-  } else {
-    container.innerHTML = cart.map((item, index) => `
-      <div class="cart-line">
-        <div>
-          <strong>${escapeHTML(item.name)}</strong>
-          <p>${money(item.price)} × ${Number(item.quantity)}</p>
-
-          ${
-            item.customisation
-              ? `<p>
-                  Name: ${escapeHTML(item.customisation.name || "")}<br>
-                  Second detail: ${escapeHTML(item.customisation.second || "None")}<br>
-                  Instructions: ${escapeHTML(item.customisation.notes || "None")}
-                </p>`
-              : ""
-          }
-
-          <button type="button" class="btn secondary small"
-            onclick="changeQuantity(${index},-1)">−</button>
-
-          <button type="button" class="btn secondary small"
-            onclick="changeQuantity(${index},1)">+</button>
-
-          <button type="button" class="btn secondary small"
-            onclick="removeFromCart(${index})">Remove</button>
-        </div>
-
-        <strong>${money(Number(item.price) * Number(item.quantity))}</strong>
-      </div>
-    `).join("");
+    container.textContent = "Your shopping bag is empty.";
   }
 
-  document.getElementById("cartTotal").textContent = money(getCartTotal());
-  document.getElementById("checkoutTotal").textContent = money(getCartTotal());
-}
+  cart.forEach(item => {
+    const row = document.createElement("div");
+    row.className = "cart-item";
 
-/* =====================================
-   PERSONALISATION
-===================================== */
+    const details = document.createElement("div");
+    details.textContent =
+      `${item.name} × ${item.quantity} — LKR ${formatPrice(item.price * item.quantity)}`;
 
-function populateCustomProducts() {
-  const select = document.getElementById("customProduct");
+    const controls = document.createElement("div");
 
-  const customisable = products.filter(product =>
-    product.is_customisable
-  );
+    const minus = document.createElement("button");
+    minus.textContent = "−";
+    minus.onclick = () => updateQuantity(item.id, -1);
 
-  select.innerHTML = '<option value="">Select a product</option>' +
-    customisable.map(product => `
-      <option value="${escapeHTML(product.id)}">
-        ${escapeHTML(product.name)} — ${money(product.price)}
-      </option>
-    `).join("");
-}
+    const plus = document.createElement("button");
+    plus.textContent = " + ";
+    plus.onclick = () => updateQuantity(item.id, 1);
 
-function selectCustomProduct(id) {
-  document.getElementById("customProduct").value = id;
+    const remove = document.createElement("button");
+    remove.textContent = "Remove";
+    remove.onclick = () => removeFromCart(item.id);
 
-  document.getElementById("custom").scrollIntoView({
-    behavior: "smooth"
-  });
-}
-
-function updatePreview() {
-  const name = document.getElementById("customName").value.trim();
-  const second = document.getElementById("customSecond").value.trim();
-
-  document.getElementById("previewName").textContent = name || "Your Name";
-  document.getElementById("previewSecond").textContent =
-    second || "Your second detail";
-}
-
-document.getElementById("customName").addEventListener("input", updatePreview);
-document.getElementById("customSecond").addEventListener("input", updatePreview);
-
-function addCustomToCart() {
-  const id = document.getElementById("customProduct").value;
-  const name = document.getElementById("customName").value.trim();
-  const second = document.getElementById("customSecond").value.trim();
-  const notes = document.getElementById("customNotes").value.trim();
-
-  const product = products.find(item => String(item.id) === String(id));
-
-  if (!product || !product.is_customisable) {
-    notify("Please select a customisable necklace");
-    return;
-  }
-
-  if (!name) {
-    notify("Please enter the name or text");
-    return;
-  }
-
-  cart.push({
-    product_id: String(product.id),
-    name: product.name,
-    price: Number(product.price),
-    quantity: 1,
-    is_customised: true,
-    customisation: { name, second, notes }
+    controls.append(minus, plus, remove);
+    row.append(details, controls);
+    container.appendChild(row);
   });
 
-  saveCart();
-  notify("Personalised necklace added to your bag");
-  openCart();
+  document.getElementById("cartTotal").textContent =
+    "Total: LKR " + formatPrice(getTotal());
 }
 
-/* =====================================
-   DRAWERS
-===================================== */
+// ======================================
+// MODALS
+// ======================================
 
-function closeDrawers() {
-  document.getElementById("cartDrawer").classList.add("hidden");
-  document.getElementById("wishlistDrawer").classList.add("hidden");
-  document.getElementById("checkoutDrawer").classList.add("hidden");
-  document.getElementById("drawerBackdrop").classList.add("hidden");
+function openCart() {
+  document.getElementById("cartModal").style.display = "block";
 }
 
-/* =====================================
-   CHECKOUT AND PAYMENT
-===================================== */
+function closeCart() {
+  document.getElementById("cartModal").style.display = "none";
+}
 
-function openCheckout() {
+function showCheckout() {
   if (!cart.length) {
-    notify("Your bag is empty");
+    alert("Please add a product to your bag first.");
     return;
   }
 
-  closeDrawers();
+  closeCart();
 
-  const payment = document.getElementById("paymentMethod");
-  const codOption = payment.querySelector(
-    'option[value="cash_on_delivery"]'
-  );
+  document.getElementById("checkoutTotal").textContent =
+    "Order Total: LKR " + formatPrice(getTotal());
 
-  codOption.disabled = hasCustomItems();
-
-  if (hasCustomItems()) {
-    payment.value = "bank_transfer";
-  }
-
-  renderCart();
-  updatePaymentInfo();
-
-  document.getElementById("checkoutDrawer").classList.remove("hidden");
-  document.getElementById("drawerBackdrop").classList.remove("hidden");
+  document.getElementById("checkoutModal").style.display = "block";
 }
 
-function updatePaymentInfo() {
-  const payment = document.getElementById("paymentMethod");
-  const bankInfo = document.getElementById("bankInfo");
-
-  if (hasCustomItems()) {
-    payment.value = "bank_transfer";
-    payment.querySelector(
-      'option[value="cash_on_delivery"]'
-    ).disabled = true;
-  }
-
-  bankInfo.classList.toggle(
-    "hidden",
-    payment.value !== "bank_transfer"
-  );
+function closeCheckout() {
+  document.getElementById("checkoutModal").style.display = "none";
 }
 
-document.getElementById("paymentMethod").addEventListener(
-  "change",
-  updatePaymentInfo
-);
+function finishOrder() {
+  cart = [];
+  updateCart();
 
-/* =====================================
-   WHATSAPP CHECKOUT
-===================================== */
+  document.getElementById("successModal").style.display = "none";
+}
 
-document.getElementById("checkoutForm").addEventListener(
-  "submit",
-  function(event) {
+// ======================================
+// SUBMIT CUSTOMER ORDER
+// ======================================
+
+document.getElementById("checkoutForm")
+  .addEventListener("submit", async function(event) {
+
     event.preventDefault();
 
     if (!cart.length) {
-      notify("Your bag is empty");
+      alert("Your shopping bag is empty.");
       return;
     }
 
-    const customer = {
-      name: document.getElementById("customerName").value.trim(),
-      email: document.getElementById("customerEmail").value.trim(),
-      phone: document.getElementById("customerPhone").value.trim(),
-      address: document.getElementById("customerAddress").value.trim(),
-      city: document.getElementById("customerCity").value.trim()
-    };
+    const button = document.getElementById("placeOrderButton");
+    const message = document.getElementById("checkoutMessage");
 
-    const payment = document.getElementById("paymentMethod").value;
+    button.disabled = true;
+    button.textContent = "SUBMITTING ORDER...";
+    message.textContent = "";
 
-    if (hasCustomItems() && payment !== "bank_transfer") {
-      notify("Customised items require bank transfer");
-      return;
+    try {
+      const form = new FormData(this);
+
+      const trackingId =
+        "ZYR-" + crypto.randomUUID().replace(/-/g, "")
+          .substring(0, 10).toUpperCase();
+
+      const orderItems = cart.map(item => ({
+        product_id: item.id,
+        product_name: item.name,
+        quantity: item.quantity,
+        unit_price: item.price,
+        subtotal: item.price * item.quantity
+      }));
+
+      const order = {
+        tracking_id: trackingId,
+        customer_name: form.get("customer_name"),
+        customer_phone: form.get("customer_phone"),
+        customer_whatsapp: form.get("customer_phone"),
+        delivery_address: form.get("delivery_address"),
+        district: form.get("district"),
+        order_items: orderItems,
+        total_amount: getTotal(),
+        payment_method: form.get("payment_method"),
+        payment_status: "Pending",
+        customization_details: {
+          instructions: form.get("customization_details"),
+          customer_email: form.get("customer_email")
+        },
+        status: "Order Confirmed"
+      };
+
+      const { data, error } = await supabaseClient
+        .from("zyra_orders")
+        .insert(order)
+        .select("tracking_id")
+        .single();
+
+      if (error) throw error;
+
+      document.getElementById("checkoutModal").style.display = "none";
+
+      document.getElementById("trackingNumber").textContent =
+        "Your tracking number: " + data.tracking_id;
+
+      document.getElementById("successModal").style.display = "block";
+
+      this.reset();
+
+    } catch (error) {
+      console.error("Order submission error:", error);
+
+      message.textContent =
+        "We couldn't submit your order. Please check the details or contact Zyra.lk.";
+
+    } finally {
+      button.disabled = false;
+      button.textContent = "PLACE ORDER";
     }
+});
 
-    const orderLines = cart.map((item, index) => {
-      let line =
-        `${index + 1}. ${item.name}\n` +
-        `Quantity: ${item.quantity}\n` +
-        `Price: ${money(item.price * item.quantity)}\n`;
-
-      if (item.customisation) {
-        line +=
-          `Name/text: ${item.customisation.name}\n` +
-          `Second detail: ${item.customisation.second || "None"}\n` +
-          `Instructions: ${item.customisation.notes || "None"}\n`;
-      }
-
-      return line;
-    });
-
-    const message = `
-ZYRA.LK — NEW ORDER REQUEST
-
-Customer: ${customer.name}
-Email: ${customer.email}
-WhatsApp: ${customer.phone}
-
-Delivery address:
-${customer.address}
-${customer.city}
-
-ORDER DETAILS
-${orderLines.join("\n")}
-
-Payment method: ${
-      payment === "bank_transfer"
-        ? "Bank Transfer"
-        : "Cash on Delivery"
-    }
-
-TOTAL: ${money(getCartTotal())}
-
-Please confirm my order. Thank you!
-    `.trim();
-
-    const url =
-      `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-
-    const newWindow = window.open(url, "_blank");
-
-    if (!newWindow) {
-      notify("Please allow pop-ups to open WhatsApp.");
-      return;
-    }
-
-    notify("WhatsApp opened. Press Send to submit your order.");
-  }
-);
-
-/* =====================================
-   TRACKING REQUEST
-===================================== */
-
-function requestTracking() {
-  const orderNumber =
-    document.getElementById("trackingNumber").value.trim();
-
-  if (!orderNumber) {
-    notify("Please enter your order number");
-    return;
-  }
-
-  const message =
-    `Hello Zyra.lk, I would like an update on my order.\nOrder number: ${orderNumber}`;
-
-  const url =
-    `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-
-  const newWindow = window.open(url, "_blank");
-
-  if (!newWindow) {
-    notify("Please allow pop-ups to open WhatsApp.");
-  }
-}
-
-/* =====================================
-   CUSTOMER REVIEWS
-===================================== */
-
-async function loadReviews() {
-  const container = document.getElementById("reviewList");
-
-  try {
-    const { data, error } = await db
-      .from("store_reviews")
-      .select("*")
-      .eq("is_approved", true)
-      .order("created_at", { ascending: false });
-
-    if (error) throw error;
-
-    if (!data || !data.length) {
-      container.innerHTML =
-        '<p class="muted">Be the first to share your experience.</p>';
-      return;
-    }
-
-    container.innerHTML = data.map(review => `
-      <article class="review">
-        <div class="stars">
-          ${"★".repeat(Math.max(0, Math.min(5, Number(review.rating) || 0)))}
-        </div>
-        <p>${escapeHTML(review.review_text)}</p>
-        <strong>${escapeHTML(review.customer_name)}</strong>
-      </article>
-    `).join("");
-
-  } catch (error) {
-    console.warn("Reviews are not configured:", error);
-
-    container.innerHTML =
-      '<p class="muted">Customer reviews will appear here once the reviews database is configured.</p>';
-  }
-}
-
-async function submitReview() {
-  const name = document.getElementById("reviewName").value.trim();
-  const rating = Number(document.getElementById("reviewRating").value);
-  const review = document.getElementById("reviewText").value.trim();
-
-  if (!name || !review) {
-    notify("Please complete your name and review");
-    return;
-  }
-
-  try {
-    const { error } = await db
-      .from("store_reviews")
-      .insert({
-        customer_name: name,
-        rating: rating,
-        review_text: review,
-        is_approved: false
-      });
-
-    if (error) throw error;
-
-    document.getElementById("reviewName").value = "";
-    document.getElementById("reviewText").value = "";
-
-    notify("Thank you! Your review was submitted for approval.");
-
-  } catch (error) {
-    console.error("Review submission error:", error);
-    notify("Reviews are not configured yet. Please try again later.");
-  }
-}
-
-/* =====================================
-   START WEBSITE
-===================================== */
-
-document.getElementById("year").textContent =
-  new Date().getFullYear();
-
-updateCounts();
-renderCart();
+// ======================================
+// INITIALIZE
+// ======================================
 
 loadProducts();
-loadReviews();
+updateCart();
 
 </script>
+
 </body>
 </html>
