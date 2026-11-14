@@ -1,0 +1,265 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zyra.lk | Admin Dashboard</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f7f4f0;color:#302321;font-family:Arial,sans-serif}
+header{background:#512b32;color:white;padding:22px 6%;display:flex;justify-content:space-between;align-items:center}
+header h2{margin:0;letter-spacing:2px}
+main{max-width:1050px;margin:35px auto;padding:0 18px}
+.panel{background:white;border:1px solid #e8ded9;border-radius:12px;padding:22px;margin-bottom:20px}
+input,button,select{font:inherit;padding:12px;border-radius:7px}
+input{width:100%;border:1px solid #d8ccc5;margin:8px 0 15px}
+button{border:0;background:#512b32;color:white;cursor:pointer}
+button:disabled{opacity:.5;cursor:not-allowed}
+.secondary{background:#e9dfda;color:#512b32}
+.hidden{display:none!important}
+.order{background:white;border:1px solid #e8ded9;border-radius:12px;padding:20px;margin:15px 0}
+.order-top{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.muted{color:#786b66;font-size:14px}
+.status{border:1px solid #d8ccc5;background:#fff;width:auto}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+#error{color:#a12d35}
+#orders{margin-top:20px}
+@media(max-width:600px){header{padding:18px}main{margin:20px auto}.panel{padding:16px}}
+</style>
+</head>
+<body>
+
+<header>
+  <h2>ZYRA.LK <small>ADMIN</small></h2>
+  <button id="logout" class="secondary hidden">Log out</button>
+</header>
+
+<main>
+  <section id="loginPanel" class="panel">
+    <h2>Admin Login</h2>
+    <p class="muted">This area is restricted to authorised Zyra administrators.</p>
+    <form id="loginForm">
+      <label>Email address</label>
+      <input id="email" type="email" autocomplete="username" required>
+      <label>Password</label>
+      <input id="password" type="password" autocomplete="current-password" required>
+      <button type="submit">Log in</button>
+    </form>
+    <p id="error"></p>
+  </section>
+
+  <section id="dashboard" class="hidden">
+    <div class="panel">
+      <h2>Orders Overview</h2>
+      <p class="muted">Customer orders submitted through your online store.</p>
+      <h1 id="totalOrders">0</h1>
+      <p class="muted">Total orders</p>
+      <button id="refresh">Refresh orders</button>
+    </div>
+    <div id="orders"></div>
+  </section>
+</main>
+
+<script>
+const SUPABASE_URL = "https://rouysaipjmzmvoegtign.supabase.co";
+const SUPABASE_KEY = "sb_publishable_XmZ0RqmzN4uAEtAhJcFgMg_CQ-HWv2D";
+
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+const loginPanel = document.getElementById("loginPanel");
+const dashboard = document.getElementById("dashboard");
+const logoutButton = document.getElementById("logout");
+const errorBox = document.getElementById("error");
+const ordersBox = document.getElementById("orders");
+
+function showError(message) {
+  errorBox.textContent = message;
+}
+
+function addText(parent, tag, value, className) {
+  const element = document.createElement(tag);
+  element.textContent = value ?? "";
+  if (className) element.className = className;
+  parent.appendChild(element);
+  return element;
+}
+
+async function checkAdmin() {
+  const { data: { user }, error } = await db.auth.getUser();
+
+  if (error || !user) {
+    showLogin();
+    return false;
+  }
+
+  const { data, error: adminError } = await db.rpc("is_zyra_admin");
+
+  if (adminError || data !== true) {
+    await db.auth.signOut();
+    showLogin();
+    showError("This account is not authorised to access the admin dashboard.");
+    return false;
+  }
+
+  loginPanel.classList.add("hidden");
+  dashboard.classList.remove("hidden");
+  logoutButton.classList.remove("hidden");
+  await loadOrders();
+  return true;
+}
+
+function showLogin() {
+  loginPanel.classList.remove("hidden");
+  dashboard.classList.add("hidden");
+  logoutButton.classList.add("hidden");
+}
+
+document.getElementById("loginForm").addEventListener("submit", async (event) => {
+  event.preventDefault();
+  showError("");
+
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+
+  const { error } = await db.auth.signInWithPassword({ email, password });
+
+  if (error) {
+    showError("Login failed. Please check your email and password.");
+    return;
+  }
+
+  await checkAdmin();
+});
+
+logoutButton.addEventListener("click", async () => {
+  await db.auth.signOut();
+  showLogin();
+});
+
+document.getElementById("refresh").addEventListener("click", loadOrders);
+
+async function loadOrders() {
+  ordersBox.replaceChildren();
+  addText(ordersBox, "p", "Loading orders...", "muted");
+
+  const { data: orders, error } = await db
+    .from("store_orders")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  ordersBox.replaceChildren();
+
+  if (error) {
+    addText(ordersBox, "p", "Could not load orders: " + error.message);
+    return;
+  }
+
+  document.getElementById("totalOrders").textContent = orders.length;
+
+  if (!orders.length) {
+    addText(ordersBox, "div", "No orders received yet.", "panel");
+    return;
+  }
+
+  for (const order of orders) {
+    const card = document.createElement("article");
+    card.className = "order";
+
+    const top = document.createElement("div");
+    top.className = "order-top";
+    addText(top, "h3", order.order_number || "Order");
+    addText(top, "span", order.order_status || "Pending", "muted");
+    card.appendChild(top);
+
+    addText(card, "p", "Customer: " + (order.customer_name || "Not provided"));
+    addText(card, "p", "Phone: " + (order.phone || "Not provided"));
+    addText(card, "p", "Email: " + (order.email || "Not provided"));
+    addText(card, "p", "Address: " + (order.delivery_address || "Not provided"));
+    addText(card, "p", "City: " + (order.city || "Not provided"));
+    addText(card, "p", "Payment: " + (order.payment_method || "Not specified"));
+    addText(card, "p", "Total: LKR " + Number(order.total_amount || 0).toLocaleString("en-LK"));
+    addText(card, "p", "Placed: " + (order.created_at ? new Date(order.created_at).toLocaleString() : "Unknown"), "muted");
+
+    const { data: items, error: itemError } = await db
+      .from("store_order_items")
+      .select("*")
+      .eq("order_id", order.id);
+
+    addText(card, "h4", "Order items");
+
+    if (itemError) {
+      addText(card, "p", "Could not load order items.", "muted");
+    } else if (!items || !items.length) {
+      addText(card, "p", "No item details found.", "muted");
+    } else {
+      for (const item of items) {
+        addText(
+          card,
+          "p",
+          (item.product_name || "Product") +
+          " × " + (item.quantity || 1) +
+          " — LKR " + Number(item.unit_price || 0).toLocaleString("en-LK")
+        );
+
+        if (item.customisation_details) {
+          addText(card, "p", "Customisation: " + item.customisation_details, "muted");
+        }
+      }
+    }
+
+    const controls = document.createElement("div");
+    controls.className = "actions";
+
+    const status = document.createElement("select");
+    status.className = "status";
+
+    ["Pending", "Processing", "Shipped", "Delivered", "Cancelled"].forEach(value => {
+      const option = document.createElement("option");
+      option.value = value;
+      option.textContent = value;
+      if ((order.order_status || "").toLowerCase() === value.toLowerCase()) {
+        option.selected = true;
+      }
+      status.appendChild(option);
+    });
+
+    const save = document.createElement("button");
+    save.textContent = "Update status";
+
+    save.addEventListener("click", async () => {
+      save.disabled = true;
+      save.textContent = "Saving...";
+
+      const { error: updateError } = await db
+        .from("store_orders")
+        .update({ order_status: status.value })
+        .eq("id", order.id);
+
+      save.disabled = false;
+      save.textContent = "Update status";
+
+      if (updateError) {
+        alert("Could not update order: " + updateError.message);
+      } else {
+        alert("Order status updated.");
+        await loadOrders();
+      }
+    });
+
+    controls.appendChild(status);
+    controls.appendChild(save);
+    card.appendChild(controls);
+    ordersBox.appendChild(card);
+  }
+}
+
+db.auth.onAuthStateChange((_event, session) => {
+  if (!session) showLogin();
+});
+
+checkAdmin();
+</script>
+</body>
+</html>
