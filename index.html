@@ -1,0 +1,1510 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f8f4ef">
+<title>Zyra.lk | Jewellery, Made Personal</title>
+<meta name="description" content="Discover personalised jewellery and limited-edition designs at Zyra.lk.">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+:root {
+  --cream: #f8f4ef;
+  --white: #fffdfa;
+  --wine: #642b3a;
+  --ink: #282323;
+  --muted: #817779;
+  --line: #e8dfd9;
+  --gold: #b49a70;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+button, input, textarea, select { font: inherit; }
+button { cursor: pointer; }
+
+.announcement {
+  background: var(--wine);
+  color: white;
+  text-align: center;
+  padding: 10px;
+  font-size: 11px;
+  letter-spacing: 2px;
+}
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgba(248,244,239,.97);
+  border-bottom: 1px solid var(--line);
+}
+
+nav {
+  max-width: 1200px;
+  margin: auto;
+  padding: 17px 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+}
+
+.logo {
+  font-family: Georgia, serif;
+  font-size: 29px;
+  color: var(--wine);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.navlinks {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.navlinks a,
+.navlinks button {
+  color: var(--ink);
+  background: none;
+  border: 0;
+  text-decoration: none;
+  font-size: 12px;
+}
+
+.hero {
+  max-width: 1200px;
+  margin: 35px auto 60px;
+  padding: 25px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 35px;
+  align-items: center;
+}
+
+.hero h1 {
+  font: normal clamp(40px,6vw,70px)/1.05 Georgia,serif;
+  color: var(--wine);
+  margin: 15px 0;
+}
+
+.hero p {
+  line-height: 1.9;
+  color: var(--muted);
+  max-width: 460px;
+}
+
+.hero-image {
+  height: 430px;
+  background: #e9dfd7 url("https://images.unsplash.com/photo-1617038220319-276d3cfab638?auto=format&fit=crop&w=1200&q=85") center/cover;
+}
+
+.eyebrow {
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--wine);
+  text-transform: uppercase;
+}
+
+.section {
+  max-width: 1200px;
+  margin: 0 auto 65px;
+  padding: 0 22px;
+}
+
+h2 {
+  font: normal 35px Georgia,serif;
+  margin: 10px 0 20px;
+}
+
+.muted { color: var(--muted); }
+
+.btn {
+  border: 1px solid var(--wine);
+  background: var(--wine);
+  color: white;
+  padding: 12px 19px;
+  border-radius: 2px;
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.btn:hover { opacity: .88; }
+
+.btn.secondary {
+  background: transparent;
+  color: var(--wine);
+}
+
+.btn.small {
+  padding: 9px 12px;
+  font-size: 10px;
+}
+
+.tools {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 22px;
+}
+
+input, textarea, select {
+  border: 1px solid var(--line);
+  background: var(--white);
+  padding: 12px;
+  color: var(--ink);
+  border-radius: 2px;
+  min-width: 0;
+}
+
+.tools input { flex: 1; min-width: 180px; }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3,minmax(0,1fr));
+  gap: 22px;
+}
+
+.product {
+  background: var(--white);
+  border: 1px solid var(--line);
+  padding: 12px;
+  min-width: 0;
+}
+
+.gallery {
+  position: relative;
+  aspect-ratio: 1/1;
+  background: #eee5df;
+  overflow: hidden;
+}
+
+.gallery img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.gallery-controls {
+  position: absolute;
+  bottom: 9px;
+  left: 9px;
+  right: 9px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.gallery-controls button,
+.heart {
+  border: 0;
+  background: rgba(255,253,250,.94);
+  color: var(--wine);
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+}
+
+.heart {
+  position: absolute;
+  top: 9px;
+  right: 9px;
+  font-size: 19px;
+}
+
+.product h3 {
+  font: normal 20px Georgia,serif;
+  margin: 14px 0 7px;
+}
+
+.product p {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.price {
+  color: var(--wine);
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.product-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+.tag {
+  display: inline-block;
+  background: #f1e8e4;
+  color: var(--wine);
+  padding: 6px 8px;
+  margin-top: 8px;
+  font-size: 10px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.panel {
+  background: var(--white);
+  border: 1px solid var(--line);
+  padding: 22px;
+  margin-top: 16px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2,minmax(0,1fr));
+  gap: 13px;
+}
+
+.form-grid .full { grid-column: 1/-1; }
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.field input,
+.field textarea,
+.field select { width: 100%; }
+
+.preview {
+  background: #f1e8e4;
+  padding: 20px;
+  text-align: center;
+  margin-top: 14px;
+}
+
+.preview-text {
+  font: 30px Georgia,serif;
+  color: var(--wine);
+  overflow-wrap: anywhere;
+}
+
+.feature-band {
+  background: #eee5df;
+  padding: 35px 22px;
+  margin-bottom: 60px;
+}
+
+.feature-inner {
+  max-width: 1136px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 25px;
+}
+
+.feature-inner h3 {
+  font: normal 22px Georgia,serif;
+}
+
+.feature-inner p {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.review-list {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 15px;
+}
+
+.review {
+  background: var(--white);
+  border: 1px solid var(--line);
+  padding: 18px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+.stars { color: var(--gold); letter-spacing: 2px; }
+
+.care-list {
+  color: var(--muted);
+  line-height: 2;
+  font-size: 14px;
+}
+
+.drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  background: #0007;
+  z-index: 30;
+}
+
+.drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 31;
+  height: 100%;
+  width: min(440px,100%);
+  overflow-y: auto;
+  background: var(--white);
+  padding: 22px;
+}
+
+.drawer-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.cart-line {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 13px;
+}
+
+.hidden { display: none !important; }
+
+.toast {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 60;
+  background: var(--wine);
+  color: white;
+  padding: 12px 18px;
+  font-size: 13px;
+  width: max-content;
+  max-width: calc(100% - 30px);
+  text-align: center;
+}
+
+footer {
+  background: #30272a;
+  color: white;
+  padding: 38px 22px;
+}
+
+.footer-inner {
+  max-width: 1136px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+footer a { color: white; }
+
+@media(max-width:760px) {
+  .hero { grid-template-columns: 1fr; }
+  .hero-image { height: 300px; }
+  .grid { grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
+  .feature-inner,.review-list { grid-template-columns: 1fr; }
+  .form-grid { grid-template-columns: 1fr; }
+  .form-grid .full { grid-column: auto; }
+  nav { align-items: flex-start; }
+  .navlinks { gap: 9px; justify-content: flex-end; }
+  .navlinks a,.navlinks button { font-size: 10px; }
+}
+
+@media(max-width:420px) {
+  .grid { grid-template-columns: 1fr; }
+  nav { flex-wrap: wrap; }
+  .navlinks { justify-content: flex-start; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="announcement">
+  A LITTLE DETAIL. A PERSONAL STORY. · ISLANDWIDE DELIVERY
+</div>
+
+<header>
+<nav>
+  <a class="logo" href="#">Zyra.lk</a>
+  <div class="navlinks">
+    <a href="#shop">Shop</a>
+    <a href="#custom">Customise</a>
+    <a href="#reviews">Reviews</a>
+    <a href="#tracking">Track order</a>
+    <a href="#care">Care guide</a>
+    <button type="button" onclick="openWishlist()">♡ Wishlist (<span id="wishCount">0</span>)</button>
+    <button type="button" onclick="openCart()">Bag (<span id="cartCount">0</span>)</button>
+  </div>
+</nav>
+</header>
+
+<main>
+
+<section class="hero">
+  <div>
+    <div class="eyebrow">The Zyra collection</div>
+    <h1>Jewellery,<br>made personal.</h1>
+    <p>
+      Discover thoughtful details, personalised pieces and
+      limited-edition designs created to make everyday moments special.
+    </p>
+    <a class="btn" href="#shop" style="display:inline-block;text-decoration:none">
+      Explore collection
+    </a>
+  </div>
+  <div class="hero-image" role="img" aria-label="Jewellery collection"></div>
+</section>
+
+<section class="section" id="shop">
+  <div class="eyebrow">Shop the collection</div>
+  <h2>Find your piece</h2>
+  <p class="muted">Explore the latest Zyra designs.</p>
+
+  <div class="tools">
+    <input id="search" placeholder="Search jewellery..." oninput="renderProducts()">
+
+    <select id="category" onchange="renderProducts()">
+      <option value="">All categories</option>
+      <option value="necklace">Necklaces</option>
+      <option value="bracelet">Bracelets</option>
+      <option value="accessories">Accessories</option>
+    </select>
+
+    <select id="sort" onchange="renderProducts()">
+      <option value="new">Newest first</option>
+      <option value="low">Price: low to high</option>
+      <option value="high">Price: high to low</option>
+    </select>
+  </div>
+
+  <div class="eyebrow">New arrivals & limited editions</div>
+  <div id="products" class="grid">
+    <p class="muted">Loading Zyra collection...</p>
+  </div>
+</section>
+
+<section class="feature-band">
+  <div class="feature-inner">
+    <div>
+      <div class="eyebrow">01 · Thoughtful details</div>
+      <h3>Made personal</h3>
+      <p>Personalised jewellery designed around names, dates and meaningful memories.</p>
+    </div>
+    <div>
+      <div class="eyebrow">02 · Exclusive designs</div>
+      <h3>Less, but special</h3>
+      <p>Discover selected designs released in limited quantities.</p>
+    </div>
+    <div>
+      <div class="eyebrow">03 · Made to gift</div>
+      <h3>A little something</h3>
+      <p>Find a thoughtful piece for someone who deserves something special.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="custom">
+  <div class="eyebrow">Your idea, your jewellery</div>
+  <h2>Personalise your piece</h2>
+  <p class="muted">Choose a customisable necklace and add the details you'd like engraved.</p>
+
+  <div class="panel">
+    <div class="form-grid">
+      <label class="field full">
+        Choose a necklace
+        <select id="customProduct">
+          <option value="">Select a product</option>
+        </select>
+      </label>
+
+      <label class="field">
+        Name or first text
+        <input id="customName" maxlength="30" placeholder="Enter a name">
+      </label>
+
+      <label class="field">
+        Second name or date (optional)
+        <input id="customSecond" maxlength="30" placeholder="Enter text or date">
+      </label>
+
+      <label class="field full">
+        Extra instructions
+        <textarea id="customNotes" rows="3" maxlength="250" placeholder="Any special instructions?"></textarea>
+      </label>
+    </div>
+
+    <div class="preview">
+      <div class="eyebrow">Personalisation preview</div>
+      <div class="preview-text" id="previewName">Your Name</div>
+      <p id="previewSecond" class="muted">Your second detail</p>
+      <p class="muted">Preview only. Final engraving will be confirmed with you.</p>
+    </div>
+
+    <button type="button" class="btn" onclick="addCustomToCart()">Add personalised piece to bag</button>
+  </div>
+</section>
+
+<section class="section" id="tracking">
+  <div class="eyebrow">Your order journey</div>
+  <h2>Order tracking</h2>
+  <p class="muted">Need an update about your order? Send us your order number through WhatsApp.</p>
+
+  <div class="panel">
+    <label class="field">
+      Order number
+      <input id="trackingNumber" placeholder="Enter your order number">
+    </label>
+    <br>
+    <button type="button" class="btn" onclick="requestTracking()">Request tracking update</button>
+    <p class="muted">This sends a tracking enquiry. It does not display live courier updates.</p>
+  </div>
+</section>
+
+<section class="section" id="reviews">
+  <div class="eyebrow">Customer stories</div>
+  <h2>Reviews</h2>
+
+  <div id="reviewList" class="review-list">
+    <p class="muted">Loading customer reviews...</p>
+  </div>
+
+  <div class="panel">
+    <h3>Share your experience</h3>
+
+    <div class="form-grid">
+      <label class="field">
+        Your name
+        <input id="reviewName" maxlength="60" placeholder="Your name">
+      </label>
+
+      <label class="field">
+        Rating
+        <select id="reviewRating">
+          <option value="5">★★★★★ — Excellent</option>
+          <option value="4">★★★★ — Very good</option>
+          <option value="3">★★★ — Good</option>
+          <option value="2">★★ — Fair</option>
+          <option value="1">★ — Poor</option>
+        </select>
+      </label>
+
+      <label class="field full">
+        Your review
+        <textarea id="reviewText" maxlength="600" rows="3" placeholder="Tell us about your experience..."></textarea>
+      </label>
+    </div>
+
+    <br>
+    <button type="button" class="btn" onclick="submitReview()">Submit review</button>
+    <p class="muted">Reviews may be checked before appearing on the website.</p>
+  </div>
+</section>
+
+<section class="section" id="care">
+  <div class="eyebrow">Keep your pieces special</div>
+  <h2>Jewellery care guide</h2>
+
+  <div class="panel">
+    <ul class="care-list">
+      <li>Keep jewellery away from perfumes, lotions and harsh chemicals.</li>
+      <li>Remove jewellery before bathing or swimming.</li>
+      <li>Wipe gently with a soft, dry cloth after use.</li>
+      <li>Store each piece separately in a dry jewellery pouch.</li>
+      <li>Avoid pulling or bending delicate chains and clasps.</li>
+    </ul>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="logo" style="color:white">Zyra.lk</div>
+      <p>Jewellery, made personal.</p>
+      <small>Thoughtful details. Meaningful pieces.</small>
+    </div>
+
+    <div>
+      <p><a href="#shop">Shop collection</a></p>
+      <p><a href="#custom">Personalise</a></p>
+      <p><a href="#care">Jewellery care</a></p>
+      <p><a href="https://wa.me/94741539576" target="_blank" rel="noopener">Contact us on WhatsApp</a></p>
+    </div>
+  </div>
+
+  <p style="text-align:center;font-size:11px;margin-top:30px">
+    © <span id="year"></span> Zyra.lk. All rights reserved.
+  </p>
+</footer>
+
+<div id="drawerBackdrop" class="drawer-backdrop hidden" onclick="closeDrawers()"></div>
+
+<aside id="cartDrawer" class="drawer hidden">
+  <div class="drawer-head">
+    <h2>Your bag</h2>
+    <button type="button" class="btn secondary small" onclick="closeDrawers()">Close</button>
+  </div>
+
+  <div id="cartItems"></div>
+
+  <div class="panel">
+    <p>Subtotal: <strong id="cartTotal">LKR 0</strong></p>
+    <button type="button" class="btn" style="width:100%" onclick="openCheckout()">Order now</button>
+  </div>
+</aside>
+
+<aside id="wishlistDrawer" class="drawer hidden">
+  <div class="drawer-head">
+    <h2>Your wishlist</h2>
+    <button type="button" class="btn secondary small" onclick="closeDrawers()">Close</button>
+  </div>
+  <div id="wishlistItems"></div>
+</aside>
+
+<aside id="checkoutDrawer" class="drawer hidden">
+  <div class="drawer-head">
+    <h2>Checkout</h2>
+    <button type="button" class="btn secondary small" onclick="closeDrawers()">Close</button>
+  </div>
+
+  <form id="checkoutForm">
+    <div class="form-grid">
+      <label class="field full">Full name
+        <input id="customerName" required maxlength="100">
+      </label>
+
+      <label class="field full">Email address
+        <input id="customerEmail" type="email" required>
+      </label>
+
+      <label class="field full">WhatsApp number
+        <input id="customerPhone" type="tel" required>
+      </label>
+
+      <label class="field full">Delivery address
+        <textarea id="customerAddress" rows="3" required></textarea>
+      </label>
+
+      <label class="field full">City
+        <input id="customerCity" required>
+      </label>
+
+      <label class="field full">Payment method
+        <select id="paymentMethod" required>
+          <option value="bank_transfer">Bank transfer</option>
+          <option value="cash_on_delivery">Cash on delivery</option>
+        </select>
+      </label>
+    </div>
+
+    <div id="bankInfo" class="panel">
+      <strong>Bank transfer</strong>
+      <p>Contact Zyra through WhatsApp to confirm the current bank transfer details before making payment.</p>
+      <p class="muted">Do not transfer money until the payment details have been confirmed.</p>
+    </div>
+
+    <div class="panel">
+      <p>Order total: <strong id="checkoutTotal">LKR 0</strong></p>
+      <button class="btn" type="submit" style="width:100%">Continue to WhatsApp</button>
+      <p class="muted">WhatsApp will open with your order details. Please press Send to submit your order.</p>
+    </div>
+  </form>
+</aside>
+
+<div id="toast" class="toast hidden"></div>
+
+<script>
+/* =====================================
+   ZYRA.LK CONFIGURATION
+===================================== */
+
+const SUPABASE_URL = "https://rouysaipjmzmvoegtign.supabase.co";
+const SUPABASE_KEY = "sb_publishable_XmZ0RqmzN4uAEtAhJcFgMg_CQ-HWv2D";
+const WHATSAPP_NUMBER = "94741539576";
+
+const db = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+let products = [];
+let galleryIndexes = {};
+
+/* SAFE LOCAL STORAGE */
+
+function readStorage(key, fallback) {
+  try {
+    const value = JSON.parse(localStorage.getItem(key));
+    return value ?? fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+let cart = readStorage("zyra_cart", []);
+let wishlist = readStorage("zyra_wishlist", []);
+
+if (!Array.isArray(cart)) cart = [];
+if (!Array.isArray(wishlist)) wishlist = [];
+
+/* =====================================
+   GENERAL HELPERS
+===================================== */
+
+const money = amount =>
+  "LKR " + Number(amount || 0).toLocaleString("en-LK");
+
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#039;"
+  })[char]);
+}
+
+function safeId(value) {
+  return encodeURIComponent(String(value));
+}
+
+function notify(message) {
+  const toast = document.getElementById("toast");
+  toast.textContent = message;
+  toast.classList.remove("hidden");
+
+  clearTimeout(notify.timer);
+  notify.timer = setTimeout(() => {
+    toast.classList.add("hidden");
+  }, 2800);
+}
+
+function saveCart() {
+  localStorage.setItem("zyra_cart", JSON.stringify(cart));
+  updateCounts();
+}
+
+function saveWishlist() {
+  localStorage.setItem("zyra_wishlist", JSON.stringify(wishlist));
+  updateCounts();
+}
+
+function updateCounts() {
+  document.getElementById("cartCount").textContent =
+    cart.reduce((sum, item) => sum + Number(item.quantity || 0), 0);
+
+  document.getElementById("wishCount").textContent = wishlist.length;
+}
+
+function getCartTotal() {
+  return cart.reduce(
+    (sum, item) => sum + Number(item.price || 0) * Number(item.quantity || 0),
+    0
+  );
+}
+
+function hasCustomItems() {
+  return cart.some(item => item.is_customised);
+}
+
+/* =====================================
+   PRODUCT IMAGES
+===================================== */
+
+function getProductImages(product) {
+  let images = [];
+
+  if (Array.isArray(product.image_urls)) {
+    images = product.image_urls;
+  } else if (
+    typeof product.image_urls === "string" &&
+    product.image_urls.trim()
+  ) {
+    try {
+      images = JSON.parse(product.image_urls);
+    } catch {
+      images = product.image_urls.split(",").map(value => value.trim());
+    }
+  }
+
+  if (!Array.isArray(images)) images = [];
+
+  if (!images.length && product.image_url) {
+    images = [product.image_url];
+  }
+
+  return images.filter(value =>
+    typeof value === "string" &&
+    /^https?:\/\//i.test(value)
+  );
+}
+
+/* =====================================
+   LOAD PRODUCTS
+===================================== */
+
+async function loadProducts() {
+  const container = document.getElementById("products");
+
+  try {
+    const { data, error } = await db
+      .from("store_products")
+      .select("*")
+      .eq("is_active", true)
+      .order("created_at", { ascending: false });
+
+    if (error) throw error;
+
+    products = data || [];
+
+    if (!products.length) {
+      container.innerHTML =
+        '<p class="muted">No products available at the moment.</p>';
+      populateCustomProducts();
+      return;
+    }
+
+    populateCustomProducts();
+    renderProducts();
+
+  } catch (error) {
+    console.error("Product loading error:", error);
+    container.innerHTML =
+      '<p class="muted">Unable to load products. Please check your Supabase connection and product permissions.</p>';
+  }
+}
+
+/* =====================================
+   PRODUCT DISPLAY AND FILTERING
+===================================== */
+
+function renderProducts() {
+  const container = document.getElementById("products");
+
+  const search = document.getElementById("search").value
+    .toLowerCase().trim();
+
+  const category = document.getElementById("category").value
+    .toLowerCase();
+
+  const sort = document.getElementById("sort").value;
+
+  let filtered = products.filter(product => {
+    const name = String(product.name || "").toLowerCase();
+    const description = String(product.description || "").toLowerCase();
+    const productCategory = String(product.category || "").toLowerCase();
+
+    const matchesSearch =
+      name.includes(search) || description.includes(search);
+
+    const matchesCategory =
+      !category || productCategory.includes(category);
+
+    return matchesSearch && matchesCategory;
+  });
+
+  if (sort === "low") {
+    filtered.sort((a, b) => Number(a.price) - Number(b.price));
+  } else if (sort === "high") {
+    filtered.sort((a, b) => Number(b.price) - Number(a.price));
+  }
+
+  if (!filtered.length) {
+    container.innerHTML =
+      '<p class="muted">No matching products found.</p>';
+    return;
+  }
+
+  container.innerHTML = filtered.map(product => {
+    const id = safeId(product.id);
+    const images = getProductImages(product);
+    const index = galleryIndexes[product.id] || 0;
+    const image = images[index] || "";
+    const wished = wishlist.includes(String(product.id));
+
+    return `
+      <article class="product">
+        <div class="gallery">
+          ${
+            image
+              ? `<img src="${escapeHTML(image)}"
+                   alt="${escapeHTML(product.name)}"
+                   loading="lazy">`
+              : `<div style="height:100%;display:grid;place-items:center;color:#817779">
+                   Image coming soon
+                 </div>`
+          }
+
+          <button type="button" class="heart"
+            onclick="toggleWishlist(decodeURIComponent('${id}'))"
+            aria-label="Toggle wishlist">
+            ${wished ? "♥" : "♡"}
+          </button>
+
+          ${
+            images.length > 1
+              ? `<div class="gallery-controls">
+                   <button type="button"
+                     onclick="changeGallery(decodeURIComponent('${id}'),-1)">‹</button>
+                   <button type="button"
+                     onclick="changeGallery(decodeURIComponent('${id}'),1)">›</button>
+                 </div>`
+              : ""
+          }
+        </div>
+
+        ${product.is_new_arrival ? '<span class="tag">New arrival</span>' : ""}
+        ${product.is_limited_edition ? '<span class="tag">Limited edition</span>' : ""}
+
+        <h3>${escapeHTML(product.name)}</h3>
+        <p>${escapeHTML(product.description || "")}</p>
+        <div class="price">${money(product.price)}</div>
+
+        <div class="product-actions">
+          <button type="button" class="btn small"
+            onclick="addToCart(decodeURIComponent('${id}'))">
+            Add to bag
+          </button>
+
+          ${
+            product.is_customisable
+              ? `<button type="button" class="btn secondary small"
+                   onclick="selectCustomProduct(decodeURIComponent('${id}'))">
+                   Personalise
+                 </button>`
+              : ""
+          }
+        </div>
+      </article>
+    `;
+  }).join("");
+}
+
+function changeGallery(id, direction) {
+  const product = products.find(item => String(item.id) === String(id));
+  if (!product) return;
+
+  const images = getProductImages(product);
+  if (images.length < 2) return;
+
+  const current = galleryIndexes[id] || 0;
+
+  galleryIndexes[id] =
+    (current + direction + images.length) % images.length;
+
+  renderProducts();
+}
+
+/* =====================================
+   WISHLIST
+===================================== */
+
+function toggleWishlist(id) {
+  id = String(id);
+
+  if (wishlist.includes(id)) {
+    wishlist = wishlist.filter(item => item !== id);
+    notify("Removed from wishlist");
+  } else {
+    wishlist.push(id);
+    notify("Added to wishlist");
+  }
+
+  saveWishlist();
+  renderProducts();
+
+  if (!document.getElementById("wishlistDrawer").classList.contains("hidden")) {
+    renderWishlist();
+  }
+}
+
+function renderWishlist() {
+  const container = document.getElementById("wishlistItems");
+
+  const items = products.filter(product =>
+    wishlist.includes(String(product.id))
+  );
+
+  if (!items.length) {
+    container.innerHTML = '<p class="muted">Your wishlist is empty.</p>';
+    return;
+  }
+
+  container.innerHTML = items.map(product => `
+    <div class="cart-line">
+      <div>
+        <strong>${escapeHTML(product.name)}</strong>
+        <p>${money(product.price)}</p>
+      </div>
+
+      <button type="button" class="btn secondary small"
+        onclick="toggleWishlist(decodeURIComponent('${safeId(product.id)}'))">
+        Remove
+      </button>
+    </div>
+  `).join("");
+}
+
+function openWishlist() {
+  closeDrawers();
+  renderWishlist();
+
+  document.getElementById("wishlistDrawer").classList.remove("hidden");
+  document.getElementById("drawerBackdrop").classList.remove("hidden");
+}
+
+/* =====================================
+   SHOPPING BAG
+===================================== */
+
+function addToCart(id) {
+  const product = products.find(item => String(item.id) === String(id));
+
+  if (!product) {
+    notify("Product not found");
+    return;
+  }
+
+  const existing = cart.find(item =>
+    item.product_id === String(product.id) &&
+    !item.is_customised
+  );
+
+  if (existing) {
+    existing.quantity += 1;
+  } else {
+    cart.push({
+      product_id: String(product.id),
+      name: product.name,
+      price: Number(product.price),
+      quantity: 1,
+      is_customised: false,
+      customisation: null
+    });
+  }
+
+  saveCart();
+  notify("Added to your bag");
+}
+
+function removeFromCart(index) {
+  if (!cart[index]) return;
+
+  cart.splice(index, 1);
+  saveCart();
+  renderCart();
+}
+
+function changeQuantity(index, amount) {
+  if (!cart[index]) return;
+
+  cart[index].quantity += amount;
+
+  if (cart[index].quantity <= 0) {
+    cart.splice(index, 1);
+  }
+
+  saveCart();
+  renderCart();
+}
+
+function openCart() {
+  closeDrawers();
+  renderCart();
+
+  document.getElementById("cartDrawer").classList.remove("hidden");
+  document.getElementById("drawerBackdrop").classList.remove("hidden");
+}
+
+function renderCart() {
+  const container = document.getElementById("cartItems");
+
+  if (!cart.length) {
+    container.innerHTML = '<p class="muted">Your bag is empty.</p>';
+  } else {
+    container.innerHTML = cart.map((item, index) => `
+      <div class="cart-line">
+        <div>
+          <strong>${escapeHTML(item.name)}</strong>
+          <p>${money(item.price)} × ${Number(item.quantity)}</p>
+
+          ${
+            item.customisation
+              ? `<p>
+                  Name: ${escapeHTML(item.customisation.name || "")}<br>
+                  Second detail: ${escapeHTML(item.customisation.second || "None")}<br>
+                  Instructions: ${escapeHTML(item.customisation.notes || "None")}
+                </p>`
+              : ""
+          }
+
+          <button type="button" class="btn secondary small"
+            onclick="changeQuantity(${index},-1)">−</button>
+
+          <button type="button" class="btn secondary small"
+            onclick="changeQuantity(${index},1)">+</button>
+
+          <button type="button" class="btn secondary small"
+            onclick="removeFromCart(${index})">Remove</button>
+        </div>
+
+        <strong>${money(Number(item.price) * Number(item.quantity))}</strong>
+      </div>
+    `).join("");
+  }
+
+  document.getElementById("cartTotal").textContent = money(getCartTotal());
+  document.getElementById("checkoutTotal").textContent = money(getCartTotal());
+}
+
+/* =====================================
+   PERSONALISATION
+===================================== */
+
+function populateCustomProducts() {
+  const select = document.getElementById("customProduct");
+
+  const customisable = products.filter(product =>
+    product.is_customisable
+  );
+
+  select.innerHTML = '<option value="">Select a product</option>' +
+    customisable.map(product => `
+      <option value="${escapeHTML(product.id)}">
+        ${escapeHTML(product.name)} — ${money(product.price)}
+      </option>
+    `).join("");
+}
+
+function selectCustomProduct(id) {
+  document.getElementById("customProduct").value = id;
+
+  document.getElementById("custom").scrollIntoView({
+    behavior: "smooth"
+  });
+}
+
+function updatePreview() {
+  const name = document.getElementById("customName").value.trim();
+  const second = document.getElementById("customSecond").value.trim();
+
+  document.getElementById("previewName").textContent = name || "Your Name";
+  document.getElementById("previewSecond").textContent =
+    second || "Your second detail";
+}
+
+document.getElementById("customName").addEventListener("input", updatePreview);
+document.getElementById("customSecond").addEventListener("input", updatePreview);
+
+function addCustomToCart() {
+  const id = document.getElementById("customProduct").value;
+  const name = document.getElementById("customName").value.trim();
+  const second = document.getElementById("customSecond").value.trim();
+  const notes = document.getElementById("customNotes").value.trim();
+
+  const product = products.find(item => String(item.id) === String(id));
+
+  if (!product || !product.is_customisable) {
+    notify("Please select a customisable necklace");
+    return;
+  }
+
+  if (!name) {
+    notify("Please enter the name or text");
+    return;
+  }
+
+  cart.push({
+    product_id: String(product.id),
+    name: product.name,
+    price: Number(product.price),
+    quantity: 1,
+    is_customised: true,
+    customisation: { name, second, notes }
+  });
+
+  saveCart();
+  notify("Personalised necklace added to your bag");
+  openCart();
+}
+
+/* =====================================
+   DRAWERS
+===================================== */
+
+function closeDrawers() {
+  document.getElementById("cartDrawer").classList.add("hidden");
+  document.getElementById("wishlistDrawer").classList.add("hidden");
+  document.getElementById("checkoutDrawer").classList.add("hidden");
+  document.getElementById("drawerBackdrop").classList.add("hidden");
+}
+
+/* =====================================
+   CHECKOUT AND PAYMENT
+===================================== */
+
+function openCheckout() {
+  if (!cart.length) {
+    notify("Your bag is empty");
+    return;
+  }
+
+  closeDrawers();
+
+  const payment = document.getElementById("paymentMethod");
+  const codOption = payment.querySelector(
+    'option[value="cash_on_delivery"]'
+  );
+
+  codOption.disabled = hasCustomItems();
+
+  if (hasCustomItems()) {
+    payment.value = "bank_transfer";
+  }
+
+  renderCart();
+  updatePaymentInfo();
+
+  document.getElementById("checkoutDrawer").classList.remove("hidden");
+  document.getElementById("drawerBackdrop").classList.remove("hidden");
+}
+
+function updatePaymentInfo() {
+  const payment = document.getElementById("paymentMethod");
+  const bankInfo = document.getElementById("bankInfo");
+
+  if (hasCustomItems()) {
+    payment.value = "bank_transfer";
+    payment.querySelector(
+      'option[value="cash_on_delivery"]'
+    ).disabled = true;
+  }
+
+  bankInfo.classList.toggle(
+    "hidden",
+    payment.value !== "bank_transfer"
+  );
+}
+
+document.getElementById("paymentMethod").addEventListener(
+  "change",
+  updatePaymentInfo
+);
+
+/* =====================================
+   WHATSAPP CHECKOUT
+===================================== */
+
+document.getElementById("checkoutForm").addEventListener(
+  "submit",
+  function(event) {
+    event.preventDefault();
+
+    if (!cart.length) {
+      notify("Your bag is empty");
+      return;
+    }
+
+    const customer = {
+      name: document.getElementById("customerName").value.trim(),
+      email: document.getElementById("customerEmail").value.trim(),
+      phone: document.getElementById("customerPhone").value.trim(),
+      address: document.getElementById("customerAddress").value.trim(),
+      city: document.getElementById("customerCity").value.trim()
+    };
+
+    const payment = document.getElementById("paymentMethod").value;
+
+    if (hasCustomItems() && payment !== "bank_transfer") {
+      notify("Customised items require bank transfer");
+      return;
+    }
+
+    const orderLines = cart.map((item, index) => {
+      let line =
+        `${index + 1}. ${item.name}\n` +
+        `Quantity: ${item.quantity}\n` +
+        `Price: ${money(item.price * item.quantity)}\n`;
+
+      if (item.customisation) {
+        line +=
+          `Name/text: ${item.customisation.name}\n` +
+          `Second detail: ${item.customisation.second || "None"}\n` +
+          `Instructions: ${item.customisation.notes || "None"}\n`;
+      }
+
+      return line;
+    });
+
+    const message = `
+ZYRA.LK — NEW ORDER REQUEST
+
+Customer: ${customer.name}
+Email: ${customer.email}
+WhatsApp: ${customer.phone}
+
+Delivery address:
+${customer.address}
+${customer.city}
+
+ORDER DETAILS
+${orderLines.join("\n")}
+
+Payment method: ${
+      payment === "bank_transfer"
+        ? "Bank Transfer"
+        : "Cash on Delivery"
+    }
+
+TOTAL: ${money(getCartTotal())}
+
+Please confirm my order. Thank you!
+    `.trim();
+
+    const url =
+      `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+
+    const newWindow = window.open(url, "_blank");
+
+    if (!newWindow) {
+      notify("Please allow pop-ups to open WhatsApp.");
+      return;
+    }
+
+    notify("WhatsApp opened. Press Send to submit your order.");
+  }
+);
+
+/* =====================================
+   TRACKING REQUEST
+===================================== */
+
+function requestTracking() {
+  const orderNumber =
+    document.getElementById("trackingNumber").value.trim();
+
+  if (!orderNumber) {
+    notify("Please enter your order number");
+    return;
+  }
+
+  const message =
+    `Hello Zyra.lk, I would like an update on my order.\nOrder number: ${orderNumber}`;
+
+  const url =
+    `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+
+  const newWindow = window.open(url, "_blank");
+
+  if (!newWindow) {
+    notify("Please allow pop-ups to open WhatsApp.");
+  }
+}
+
+/* =====================================
+   CUSTOMER REVIEWS
+===================================== */
+
+async function loadReviews() {
+  const container = document.getElementById("reviewList");
+
+  try {
+    const { data, error } = await db
+      .from("store_reviews")
+      .select("*")
+      .eq("is_approved", true)
+      .order("created_at", { ascending: false });
+
+    if (error) throw error;
+
+    if (!data || !data.length) {
+      container.innerHTML =
+        '<p class="muted">Be the first to share your experience.</p>';
+      return;
+    }
+
+    container.innerHTML = data.map(review => `
+      <article class="review">
+        <div class="stars">
+          ${"★".repeat(Math.max(0, Math.min(5, Number(review.rating) || 0)))}
+        </div>
+        <p>${escapeHTML(review.review_text)}</p>
+        <strong>${escapeHTML(review.customer_name)}</strong>
+      </article>
+    `).join("");
+
+  } catch (error) {
+    console.warn("Reviews are not configured:", error);
+
+    container.innerHTML =
+      '<p class="muted">Customer reviews will appear here once the reviews database is configured.</p>';
+  }
+}
+
+async function submitReview() {
+  const name = document.getElementById("reviewName").value.trim();
+  const rating = Number(document.getElementById("reviewRating").value);
+  const review = document.getElementById("reviewText").value.trim();
+
+  if (!name || !review) {
+    notify("Please complete your name and review");
+    return;
+  }
+
+  try {
+    const { error } = await db
+      .from("store_reviews")
+      .insert({
+        customer_name: name,
+        rating: rating,
+        review_text: review,
+        is_approved: false
+      });
+
+    if (error) throw error;
+
+    document.getElementById("reviewName").value = "";
+    document.getElementById("reviewText").value = "";
+
+    notify("Thank you! Your review was submitted for approval.");
+
+  } catch (error) {
+    console.error("Review submission error:", error);
+    notify("Reviews are not configured yet. Please try again later.");
+  }
+}
+
+/* =====================================
+   START WEBSITE
+===================================== */
+
+document.getElementById("year").textContent =
+  new Date().getFullYear();
+
+updateCounts();
+renderCart();
+
+loadProducts();
+loadReviews();
+
+</script>
+</body>
+</html>
